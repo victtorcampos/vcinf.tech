@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: ECO System - VCINF TECH
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vcinf_db
+    username: admin
+    password: "@Ecs1504"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: localhost # ou localhost se estiver rodando na mesma máquina
+      port: 6379
+      password: "@Ecs1504"
+      # timeout: 2000ms # Recomendado adicionar timeout para não travar a thread
+
+server:
+  port: 8080

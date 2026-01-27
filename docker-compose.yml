@@ -1,0 +1,59 @@
+services:
+  # --- Infraestrutura ---
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASS:-@Ecs1504}
+      POSTGRES_DB: vcinf_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - vcinf-net
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASS:-@Ecs1504}
+    ports:
+      - "6379:6379"
+    networks:
+      - vcinf-net
+
+  # --- Aplicação Backend ---
+  backend:
+    build: 
+      context: ./BACKEND
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vcinf_db
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - vcinf-net
+
+  # --- Aplicação Frontend ---
+  frontend:
+    build:
+      context: ./FRONTEND
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8080 # Para o navegador do cliente
+    depends_on:
+      - backend
+    networks:
+      - vcinf-net
+
+volumes:
+  postgres_data:
+
+networks:
+  vcinf-net:
+    driver: bridge
