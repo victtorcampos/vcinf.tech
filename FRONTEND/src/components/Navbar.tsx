@@ -47,7 +47,7 @@ export function Navbar() {
           <ThemeToggle />
           
           <Link
-            href="#contato"
+            href="/login"
             className="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-colors focus:ring-4 focus:outline-none"
             style={{ 
               backgroundColor: 'var(--primary)', 
@@ -118,7 +118,7 @@ export function Navbar() {
             {/* Mobile CTA */}
             <li className="md:hidden mt-4">
               <Link
-                href="#contato"
+                href="/login"
                 className="block w-full text-center px-4 py-2 text-sm font-medium rounded-lg transition-colors"
                 style={{ 
                   backgroundColor: 'var(--primary)', 
