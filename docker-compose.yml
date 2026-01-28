@@ -30,7 +30,11 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vcinf_db
+      DB_USER: ${DB_USER:-admin}
+      DB_PASS: ${DB_PASS:-@Ecs1504}
       SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      REDIS_PASS: ${REDIS_PASS:-@Ecs1504}
     depends_on:
       - postgres
       - redis
