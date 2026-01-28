@@ -2,25 +2,22 @@
 FROM maven:3.9-eclipse-temurin-17-alpine AS build
 WORKDIR /app
 
-# Otimização de Cache: Copia apenas o pom.xml primeiro
+# 1. Copia dependências e baixa (Cache Layer)
 COPY pom.xml .
-# Baixa dependências em modo batch (-B) para logs mais limpos, mas falha se der erro
 RUN mvn dependency:go-offline -B
 
-# Copia o código fonte
+# 2. Copia código fonte
 COPY src ./src
 
-# Compila o projeto.
-# Se este passo falhar, o docker build vai parar aqui e mostrar o erro.
+# 3. Compila o projeto (Gera a pasta /target)
 RUN mvn clean package -DskipTests -B
 
-# Estágio Final (Leve)
+# Estágio Final
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# Copia o artefato com nome específico baseado no pom.xml (artifactId-version)
-# Isso evita erros de "no such file" com wildcards se o build falhar silenciosamente antes
-COPY --from=build /app/target/eco-system-0.0.1.jar app.jar
+# 4. Copia o JAR gerado. O wildcard *.jar é mais seguro se a versão mudar.
+COPY --from=build /app/target/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 EXPOSE 8080
