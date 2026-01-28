@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 // Rotas que são públicas e não requerem autenticação
 const publicRoutes = ['/login', '/cadastro', '/'];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // 1. Tenta ler o cookie de autenticação (HttpOnly)
   const token = request.cookies.get('vcinf_token')?.value;
   
