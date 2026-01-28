@@ -2,7 +2,7 @@
 $excludeTotalDirs = @("FRONTEND/node_modules", "BACKEND/target", ".git/", "venv", ".emergent", "dist", ".next")
 $excludeTotalFiles = @("backup.md", "log.txt", "mvnw", "mvnw.cmd", ".gitignore")
 $excludeTotalExtensions = @(".png", ".jpg", ".jpeg", ".exe", ".dll", ".pyc", ".ico", ".bin", ".zip")
-
+ 
 # 2. NÍVEL: METADATA ONLY (O nome do arquivo aparece, mas o conteúdo é ignorado)
 $excludeContentDirs = @("FRONTEND/src/components/ui", "BACKEND/.mvn")
 $excludeContentExtensions = @(".json", ".svg", ".lock", ".md")
