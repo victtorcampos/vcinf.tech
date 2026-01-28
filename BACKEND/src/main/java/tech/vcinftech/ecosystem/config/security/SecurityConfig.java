@@ -20,10 +20,9 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
-    private final UserDetailsService userDetailsService; // Injetado, não criado aqui
-    private final PasswordEncoder passwordEncoder;     // Injetado
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-    // Injeção via construtor resolve as dependências na ordem certa
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, 
                           UserDetailsService userDetailsService,
                           PasswordEncoder passwordEncoder) {
@@ -37,9 +36,14 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authenticationProvider()) // Importante explicitar o provider
+            .authenticationProvider(authenticationProvider())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll() // Ajuste se sua rota for diferente
+                // Rotas Públicas
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/users/**").permitAll() // TEMPORÁRIO: Liberado para testes de banco
+                // Swagger / OpenAPI (se adicionar no futuro)
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                // Todas as outras exigem token
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -61,7 +65,6 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:3000");
-        //config.addAllowedOrigin("http://localhost:5173");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
