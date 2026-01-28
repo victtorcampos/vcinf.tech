@@ -1,5 +1,5 @@
 # 1. NÍVEL: EXCLUSÃO TOTAL (O arquivo nem aparece na lista)
-$excludeTotalDirs = @("FRONTEND/node_modules", "BACKEND/target", ".git", ".github/appmod", "venv", ".emergent", "dist", ".next")
+$excludeTotalDirs = @("FRONTEND/node_modules", "BACKEND/target", ".git/", "venv", ".emergent", "dist", ".next")
 $excludeTotalFiles = @("backup.md", "log.txt", "mvnw", "mvnw.cmd", ".gitignore")
 $excludeTotalExtensions = @(".png", ".jpg", ".jpeg", ".exe", ".dll", ".pyc", ".ico", ".bin", ".zip")
 
@@ -14,7 +14,7 @@ $backupFile = Join-Path -Path $currentPath -ChildPath "backup.md"
 "# Project Backup for Analysis`nGenerated on: $(Get-Date)`n" | Out-File -FilePath $backupFile -Encoding utf8
 
 $items = Get-ChildItem -Path $currentPath -Recurse -File -ErrorAction SilentlyContinue
-
+ 
 foreach ($file in $items) {
     $relativePath = $file.FullName.Replace($currentPath.Path, "").TrimStart("\").Replace("\", "/")
     
