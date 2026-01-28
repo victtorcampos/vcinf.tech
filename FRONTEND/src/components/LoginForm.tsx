@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from 'react';
@@ -18,7 +17,9 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      // Chamamos nossa própria rota interna do Next.js (Proxy)
+      // Ela vai cuidar de pegar o token e setar o cookie HttpOnly
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,11 +28,10 @@ export default function LoginForm() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        // Salva o token no localStorage
-        localStorage.setItem('authToken', data.token);
-        // Redireciona para o dashboard
+        // Não precisamos salvar nada no localStorage
+        // O cookie vcinf_token já foi definido pelo servidor
         router.push('/dashboard');
+        router.refresh(); // Força atualização para o middleware reconhecer o cookie
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Credenciais inválidas. Tente novamente.');
