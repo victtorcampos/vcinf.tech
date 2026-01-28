@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import LogoIcon from "@/components/LogoIcon";
+import { LogoIcon } from "@/components/LogoIcon";
 
 interface SidebarProps {
   className?: string;
