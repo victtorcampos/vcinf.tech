@@ -1,4 +1,4 @@
-package com.vcinftech.ecosystem.dto;
+package tech.vcinftech.ecosystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

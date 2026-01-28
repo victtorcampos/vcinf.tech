@@ -1,6 +1,6 @@
-package com.vcinftech.ecosystem.exception;
+package tech.vcinftech.ecosystem.exception;
 
-import com.vcinftech.ecosystem.dto.ErrorResponse;
+import tech.vcinftech.ecosystem.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

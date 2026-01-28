@@ -1,11 +1,15 @@
 spring:
   application:
-    name: ECO System - VCINF TECH
+    name: ecosystem
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/vcinf_db}
     username: ${DB_USER:admin}
     password: ${DB_PASS:@Ecs1504}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,6 +18,8 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: America/Cuiaba
   data:
     redis:
       host: ${SPRING_DATA_REDIS_HOST:localhost}
@@ -23,3 +29,12 @@ spring:
 
 server:
   port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    tech.vcinftech.ecosystem: DEBUG

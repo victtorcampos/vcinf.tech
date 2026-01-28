@@ -1,4 +1,4 @@
-package com.vcinftech.ecosystem.service;
+package tech.vcinftech.ecosystem.service;
 
 import org.springframework.stereotype.Service;
 

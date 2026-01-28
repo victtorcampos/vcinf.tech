@@ -1,4 +1,4 @@
-package com.vcinftech.ecosystem.config.security;
+package tech.vcinftech.ecosystem.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

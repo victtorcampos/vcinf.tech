@@ -1,6 +1,6 @@
-package com.vcinftech.ecosystem.controller;
+package tech.vcinftech.ecosystem.controller;
 
-import com.vcinftech.ecosystem.dto.DashboardSummary;
+import tech.vcinftech.ecosystem.dto.DashboardSummary;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

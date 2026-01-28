@@ -1,7 +1,7 @@
-package com.vcinftech.ecosystem.controller;
+package tech.vcinftech.ecosystem.controller;
 
-import com.vcinftech.ecosystem.dto.LoginRequest;
-import com.vcinftech.ecosystem.service.TokenService;
+import tech.vcinftech.ecosystem.dto.LoginRequest;
+import tech.vcinftech.ecosystem.service.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

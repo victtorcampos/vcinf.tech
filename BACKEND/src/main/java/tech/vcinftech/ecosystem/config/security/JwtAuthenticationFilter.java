@@ -1,6 +1,6 @@
-package com.vcinftech.ecosystem.config.security;
+package tech.vcinftech.ecosystem.config.security;
 
-import com.vcinftech.ecosystem.service.TokenService;
+import tech.vcinftech.ecosystem.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
