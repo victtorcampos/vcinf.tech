@@ -2,10 +2,15 @@
 node_modules/
 /FRONTEND/node_modules/
 
+backup.md
+
 # Build output
 /BACKEND/target/
 /FRONTEND/dist/
 /FRONTEND/build/
+
+# NextJs
+/FRONTEND/.next/
 
 # IDE files
 .idea/
@@ -31,6 +36,7 @@ node_modules/
 # Original JAR files
 *.original
 
+/FRONTEND/*.lock
 #
 /.idx
 /.git
