@@ -16,7 +16,7 @@ RUN mvn clean package -DskipTests -B
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# 4. Copia o JAR gerado. O wildcard *.jar é mais seguro se a versão mudar.
+# 4. Copia o JAR gerado. O wildcard *.jar é mais seguro  se a versão mudar.
 COPY --from=build /app/target/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
