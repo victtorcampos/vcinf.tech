@@ -1,7 +1,8 @@
 services:
-  # --- Infraestrutura ---
+  # --- Banco de Dados ---
   postgres:
     image: postgres:15-alpine
+    container_name: vcinf-postgres
     environment:
       POSTGRES_USER: ${DB_USER:-admin}
       POSTGRES_PASSWORD: ${DB_PASS:-@Ecs1504}
@@ -10,55 +11,65 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-admin} -d vcinf_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - vcinf-net
 
+  # --- Cache ---
   redis:
     image: redis:7-alpine
+    container_name: vcinf-redis
     command: redis-server --requirepass ${REDIS_PASS:-@Ecs1504}
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
     networks:
       - vcinf-net
 
-  # --- Aplicação Backend ---
+  # --- Aplicação Backend (Puxando do GitHub) ---
   backend:
-    build: 
-      context: ./BACKEND
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+    image: ghcr.io/seu-usuario/seu-repositorio-backend:latest
+    container_name: vcinf-backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vcinf_db
-      DB_USER: ${DB_USER:-admin}
-      DB_PASS: ${DB_PASS:-@Ecs1504}
-      SPRING_DATA_REDIS_HOST: redis
-      SPRING_DATA_REDIS_PORT: 6379
-      REDIS_PASS: ${REDIS_PASS:-@Ecs1504}
-    depends_on:
-      - postgres
-      - redis
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-admin}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASS:-@Ecs1504}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PASSWORD: ${REDIS_PASS:-@Ecs1504}
+    ports:
+      - "8080:8080"
     networks:
       - vcinf-net
 
-  # --- Aplicação Frontend ---
+  # --- Interface Frontend (Puxando do GitHub) ---
   frontend:
-    build:
-      context: ./FRONTEND
-      dockerfile: Dockerfile
+    image: ghcr.io/seu-usuario/seu-repositorio-frontend:latest
+    container_name: vcinf-frontend
+    restart: always
     ports:
       - "3000:3000"
     environment:
-      NEXT_PUBLIC_API_URL: ${API_URL:-http://localhost:8080} # Para o servidor Next.js
-    depends_on:
-      - backend
+      NEXT_PUBLIC_API_URL: http://backend:8080
     networks:
       - vcinf-net
-
-volumes:
-  postgres_data:
 
 networks:
   vcinf-net:
     driver: bridge
-    
+
+volumes:
+  postgres_data:
