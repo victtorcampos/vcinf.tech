@@ -1,22 +1,26 @@
 # Estágio de Build
-FROM maven:3.9-eclipse-temurin-17-alpine AS build
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 
-# 1. Copia dependências e baixa (Cache Layer)
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+# Copia arquivos do wrapper Maven
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
-# 2. Copia código fonte
+# Garante que o mvnw seja executável e tenha quebras de linha Unix
+RUN sed -i 's/\r$//' mvnw
+RUN chmod +x mvnw
+
+# Baixa dependências
+RUN ./mvnw dependency:go-offline -B
+
+# Copia código fonte e compila
 COPY src ./src
-
-# 3. Compila o projeto (Gera a pasta /target)
-RUN mvn clean package -DskipTests -B
+RUN ./mvnw clean package -DskipTests -B
 
 # Estágio Final
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# 4. Copia o JAR gerado. O wildcard *.jar é mais seguro  se a versão mudar.
 COPY --from=build /app/target/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
