@@ -36,7 +36,7 @@ services:
 
   # --- Aplicação Backend (Puxando do GitHub) ---
   backend:
-    image: ghcr.io/seu-usuario/seu-repositorio-backend:latest
+    image: ghcr.io/victor-campos/vcinf-backend:latest
     container_name: vcinf-backend
     restart: always
     depends_on:
@@ -57,7 +57,7 @@ services:
 
   # --- Interface Frontend (Puxando do GitHub) ---
   frontend:
-    image: ghcr.io/seu-usuario/seu-repositorio-frontend:latest
+    image: ghcr.io/victor-campos/vcinf-frontend:latest
     container_name: vcinf-frontend
     restart: always
     ports:
