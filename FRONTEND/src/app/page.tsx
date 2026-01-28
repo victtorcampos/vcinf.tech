@@ -1,8 +1,8 @@
+import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/Hero";
+import { InfoBar } from "@/components/InfoBar";
 import { Navbar } from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import InfoBar from "@/components/InfoBar";
-import Footer from "@/components/Footer";
+import { Services } from "@/components/Services";
 
 export default function Home() {
   return (
